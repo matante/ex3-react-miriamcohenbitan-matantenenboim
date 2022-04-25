@@ -4,8 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Authors
 
-Student name - student email.
-
+Miriam Cohen Bitan miriamco@edu.hac.ac.il
+Matan Tenenboim matante@edu.hac.ac.il
 ## General Information
 
 ### libraries used for this project:
