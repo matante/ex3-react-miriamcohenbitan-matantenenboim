@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import Form from "../components/Form";
+import Form from "./Form";
 
-export default function Location() {
+export default function Locations() {
 
     return (
         <main style={{ padding: '1rem 0' }}>
