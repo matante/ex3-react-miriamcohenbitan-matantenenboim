@@ -1,11 +1,9 @@
 import * as React from 'react';
 import App from "../App";
 import {Link, Route} from "react-router-dom";
-import Locations from "./Locations";
-import Forecast from "./Forecast";
+
 
 function Menu() {
-    console.log("Hello from Menu");
     return (
         <>
 
