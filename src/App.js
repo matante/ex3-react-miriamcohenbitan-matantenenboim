@@ -1,31 +1,36 @@
-import Form from "./components/Form"
-
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import {Outlet, Link, BrowserRouter, Routes, Route} from 'react-router-dom';
-import Locations from './components/Locations';
-import Layout from './components/Layout';
-import Forecast from './components/Forecast';
-import NoPage from './components/NoPage';
+import ReactDOM from "react-dom/client";
+
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { useState, useEffect } from 'react';
+
+import Menu from "./components/Menu";
+import Forecast from "./components/Forecast";
+import Locations from "./components/Locations";
+import NoPage from "./components/NoPage";
 
 
-// import {useState} from "react";
 
-function App() {
+export default function App() {
+    const [isHomePage, setIsHome] = useState(false);
+
+    useEffect(() => {
+        setIsHome(true);
+    }); // trigger the effect when url changes
+
+
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<Locations />} />
-                    <Route path="/forecast" element={< Forecast />} />
-                    <Route path="*" element={<NoPage />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
+        <div>
+            <BrowserRouter>
+                <Menu/>
 
-
+                <Routes>
+                    <Route path="/" element={<Forecast/>}/>
+                    <Route path="locations" element={<Locations/>}/>
+                    <Route path="*" element={<NoPage/>}/>
+                </Routes>
+            </BrowserRouter>
+        </div>
     );
 }
 
-
-export default App;

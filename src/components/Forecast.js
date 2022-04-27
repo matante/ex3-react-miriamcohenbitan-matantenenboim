@@ -1,11 +1,13 @@
 import * as React from 'react';
+import App from "../App";
 
 
-export default function Forecast() {
+function Forecast() {
 
+    console.log("Hello from Forecast");
     return (
-        <main style={{ padding: '1rem 0' }}>
-            <h1>Forecast</h1>
-        </main>
+        <h1>Forecast</h1>
     );
 }
+
+export default Forecast;

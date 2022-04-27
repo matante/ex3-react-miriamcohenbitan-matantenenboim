@@ -2,10 +2,9 @@ import * as React from 'react';
 
 
 export default function NoPage() {
+    console.log("Hello from NoPage");
 
     return (
-        <main style={{ padding: '1rem 0' }}>
             <h1>NoPage</h1>
-        </main>
     );
 }
