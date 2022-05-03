@@ -1,16 +1,26 @@
-import {useState} from "react";
+import React, {useState} from "react";
 
 export default function Form(props) {
     const [inputs, setInputs] = useState({});
+
     const handleChange = (event) => {
         const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name]: value}))
+        const userInput = event.target.value;
+        setInputs(values => ({...values, [name]: userInput}))
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.addLocation(event);
+        if (props.checkInput(inputs)){
+            console.log("all valid")
+            props.addLocation(inputs);
+
+        }else{
+
+            console.log("not valid")
+        }
+
+
     }
 
 
@@ -28,7 +38,10 @@ export default function Form(props) {
                            id="locationName"
                         // value={inputs.locationName || ""} todo ask solange why
                            onChange={handleChange}
+                           required
                     />
+                    <p className={props.errors.locationName ? 'alert alert-danger' : ""}> {props.errors.locationName}</p>
+
                 </div>
 
                 <div className="mb-3 col">
@@ -39,7 +52,10 @@ export default function Form(props) {
                            name="latitude"
                            value={inputs.latitude || ""}
                            onChange={handleChange}
+                           required
                     />
+                    <p className={props.errors.latitude ? 'alert alert-danger' : ""}> {props.errors.latitude}</p>
+
                 </div>
 
                 <div className="mb-3 col">
@@ -51,7 +67,10 @@ export default function Form(props) {
                            value={inputs.longitude || ""}
 
                            onChange={handleChange}
+                           required
                     />
+                    <p className={props.errors.longitude ? 'alert alert-danger' : ""}> {props.errors.longitude}</p>
+
                 </div>
 
 
@@ -59,8 +78,11 @@ export default function Form(props) {
 
             </form>
             <button type="text" className="btn btn-primary" onClick={() => {
-                for (let i = 0; i < props.list.length; i++){console.log(props.list[i])}
-            } }>clickme</button>
+                for (let i = 0; i < props.list.length; i++) {
+                    console.log(props.list[i])
+                }
+            }}>clickme
+            </button>
         </div>
 
     );
