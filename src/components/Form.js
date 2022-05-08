@@ -12,15 +12,8 @@ export default function Form(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (props.checkInput(inputs)){
-            console.log("all valid")
             props.addLocation(inputs);
-
-        }else{
-
-            console.log("not valid")
         }
-
-
     }
 
 

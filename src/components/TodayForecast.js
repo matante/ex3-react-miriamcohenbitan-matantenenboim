@@ -1,32 +1,74 @@
 import * as React from 'react';
+import Winds from "../Winds";
 import {useState} from "react";
 
 
 function TodayForecast(props) {
 
+
+    const toDate = (date) => {
+        const dateString = date.toString();
+        const year = dateString.substring(0, 4);
+        const month = dateString.substring(4, 6);
+        const day = dateString.substring(6, 8);
+
+        return `${year} ${month} ${day}`;
+    }
+
+    const getWindAsText = (windNumber) => {
+        if (windNumber === 1){
+            return "No Wind";
+        }
+        return Winds.winds[windNumber]
+    }
+
     return (
         <>
             <div className="card">
-                <div className="card-header">
-                    {props.forecast.date}
-                    {props.forecast.weather}
-                    {props.forecast.temperatures.min}
-                    {props.forecast.temperatures.max}
-                    {props.forecast.wind}
+                {props.forecast.weather ? (
+                    <>
+                        <h5 className="card-header"> {toDate(props.forecast.date)} </h5>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-3">
+                                    <h5>Weather:</h5>
+                                </div>
+                                <div className="col-6">
+                                    {props.forecast.weather}
+                                </div>
+                            </div>
 
-                </div>
-                <div className="card-body">
-                    <h5 className="card-title">Special title treatment</h5>
-                    <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <button type="text" className="btn btn-primary" onClick={() => {
-                    console.log(props.forecast ? "fff" : "ddd" )
-                    console.log(props.forecast)
-                    // console.log(props.forecast["dataseries"][0])
-                }}>clickme                </button>
+                            <div className="row">
+                                <div className="col-3">
+                                    <h5>Temperature:</h5>
+                                </div>
+                                <div className="col-6">
+                                    {props.forecast.temperatures.min} to {props.forecast.temperatures.max} Celsius
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col-3">
+                                    <h5>Wind Condition:</h5>
+                                </div>
+                                <div className="col-6">
+                                    {getWindAsText(props.forecast.wind)}
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                ) : (<h5>Please add a location and then press "Show Forecast"</h5>)}
+
             </div>
+            {props.spinner ?
+                (<div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>)
+                : ("") }
+
         </>
-    );
+    )
+        ;
 }
 
 export default TodayForecast;

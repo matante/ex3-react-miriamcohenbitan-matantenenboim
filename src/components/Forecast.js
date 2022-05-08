@@ -9,6 +9,7 @@ function Forecast(props) {
     const [imageSource, setImageSource] = useState("forecast.jpg");
     const [forecastDetails, setForecastDetails] =
         useState({date: "", weather: "", temperatures: {min: "", max: ""}, wind: ""});
+    const [spinner, setSpinner] = useState(false);
 
 
     function status(response) {
@@ -20,6 +21,7 @@ function Forecast(props) {
     }
 
     const displayImage = async (location) => {
+        setSpinner(true);
         const latitude = location.latitude;
         const longitude = location.longitude;
         setImageSource(`https://www.7timer.info/bin/astro.php?%20lon=${longitude}&lat=${latitude}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`)
@@ -34,6 +36,7 @@ function Forecast(props) {
                     temperatures: {min: today["temp2m"]["min"], max: today["temp2m"]["max"]},
                     wind: today["wind10m_max"]
                 });
+                setSpinner(false);
 
             })
             .catch(function (err) {
@@ -43,10 +46,11 @@ function Forecast(props) {
 
     return (
         <>
-            <List list={props.locationsList} action={displayImage} actionText={"forecast test"} buttonColor={"primary"}/>
+            <List list={props.locationsList} action={displayImage} actionText={"Show Forecast"} buttonColor={"primary"}/>
             <br/>
             <img src={imageSource} alt={''} />
-            <TodayForecast forecast={forecastDetails}/>
+            <br/>
+            <TodayForecast forecast={forecastDetails} spinner={spinner}/>
         </>
     );
 }

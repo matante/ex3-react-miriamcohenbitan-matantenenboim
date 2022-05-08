@@ -10,14 +10,8 @@ import Locations from "./components/Locations";
 import NoPage from "./components/NoPage";
 
 
-
 export default function App() {
-    const [isHomePage, setIsHome] = useState(false);
     const [locationsList, setLocationsList] = useState([]);
-
-    useEffect(() => {
-        setIsHome(true);
-    }); // trigger the effect when url changes
 
 
     return (
