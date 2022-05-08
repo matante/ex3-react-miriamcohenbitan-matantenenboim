@@ -3,8 +3,8 @@ import Location from "../Location"
 import Form from "./Form";
 import List from "./List";
 
-export default function Locations() {
-    const [locationsList, setLocationsList] = useState([]);
+export default function Locations(props) {
+    // const [locationsList, setLocationsList] = useState([]);
     const [errors, setErrors] = useState({locationName: "", latitude: "", longitude: ""}); // tell which error (empty = no error)
 
     const addLocation = (inputs) => {
@@ -13,11 +13,11 @@ export default function Locations() {
         const latitude = parseFloat(inputs.latitude.trim());
         const longitude = parseFloat(inputs.longitude.trim());
 
-        setLocationsList(oldList => [...oldList, new Location(locationName, latitude, longitude)]);
+        props.setLocationsList(oldList => [...oldList, new Location(locationName, latitude, longitude)]);
 
     }
     const isAlreadyAppears = (locationName) => {
-        for (const location of locationsList) {
+        for (const location of props.locationsList) {
             if (location.getName() === locationName) {
                 setErrors({...errors, locationName: "Name is already exists"});
                 return true;
@@ -52,13 +52,13 @@ export default function Locations() {
 
     }
 
-    const deleteLocation = (otherName) => {
-        setLocationsList(locationsList.filter(location => location.name !== otherName));
+    const deleteLocation = (otherLocation) => {
+        props.setLocationsList(props.locationsList.filter(location => location.name !== otherLocation.name));
     }
 
 
     return (<>
-        <Form list={locationsList} addLocation={addLocation} errors={errors} checkInput={checkInput}/>
-        <List list={locationsList} deleteLocation={deleteLocation}/>
+        <Form list={props.locationsList} addLocation={addLocation} errors={errors} checkInput={checkInput}/>
+        <List list={props.locationsList} action={deleteLocation} actionText={"Delete Location"} buttonColor={"danger"}/>
     </>);
 }

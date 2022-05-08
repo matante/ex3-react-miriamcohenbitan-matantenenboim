@@ -14,9 +14,10 @@ function List(props) {
                             name: {location.name} &nbsp;&nbsp;&nbsp;&nbsp;
                             latitude: {location.latitude}&nbsp;&nbsp;&nbsp;&nbsp;
                             longitude: {location.longitude}
-                            <button type="button" className="btn btn-danger"
-                                    onClick={ () => props.deleteLocation(location.name)}>
-                                Delete Location</button>
+
+                            <button type="button" className={`btn btn-${props.buttonColor}`}
+                                    onClick={ () => props.action(location)}>
+                                {props.actionText}</button>
                         </li>
                     ))}
                 </ol>
