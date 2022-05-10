@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Location from "../Location"
 import Form from "./Form";
 import List from "./List";
+import Constants from "../Constants";
+
 
 export default function Locations(props) {
-    // const [locationsList, setLocationsList] = useState([]);
     const [errors, setErrors] = useState({locationName: "", latitude: "", longitude: ""}); // tell which error (empty = no error)
-
     const addLocation = (inputs) => {
 
         const locationName = inputs.locationName.trim();
@@ -27,8 +27,9 @@ export default function Locations(props) {
         return false;
     }
     const isInRange = (type, value, min, max) => {
+        console.log(type, min, max)
 
-        if (value < min || value > max){
+        if (value < min || value > max) {
             setErrors(errors => ({...errors, [type]: `Value is not in range [${min}..${max}]`}));
             return false;
         }
@@ -46,8 +47,8 @@ export default function Locations(props) {
 
 
         const v1 = !isAlreadyAppears(locationName);
-        const v2 = isInRange("latitude", latitude, -90, 90);
-        const v3 = isInRange("longitude", longitude, -180, 180);
+        const v2 = isInRange("latitude", latitude, Constants.latitude.min, Constants.latitude.max);
+        const v3 = isInRange("longitude", longitude, Constants.longitude.min, Constants.longitude.max);
         return locationName && v1 && v2 && v3; // todo add bootstrap required
 
     }
@@ -57,8 +58,12 @@ export default function Locations(props) {
     }
 
 
-    return (<>
-        <Form list={props.locationsList} addLocation={addLocation} errors={errors} checkInput={checkInput}/>
-        <List list={props.locationsList} action={deleteLocation} actionText={"Delete Location"} buttonColor={"danger"}/>
-    </>);
+    return (
+        <>
+            <Form list={props.locationsList} addLocation={addLocation} errors={errors} checkInput={checkInput}/>
+            <br/>
+            <List list={props.locationsList} action={deleteLocation} actionText={"Delete Location"}
+                  buttonColor={"danger"}/>
+        </>
+    );
 }

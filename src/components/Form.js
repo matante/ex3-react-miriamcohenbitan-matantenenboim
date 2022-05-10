@@ -29,7 +29,7 @@ export default function Form(props) {
                            name="locationName"
                            className="form-control"
                            id="locationName"
-                        // value={inputs.locationName || ""} todo ask solange why
+                           //value={inputs.locationName || ""} todo ask solange why
                            onChange={handleChange}
                            required
                     />
@@ -67,15 +67,11 @@ export default function Form(props) {
                 </div>
 
 
-                <button type="submit" className="btn btn-primary">Add Location ☻☺♥☻!</button>
+                <button type="submit" className="btn btn-primary">Add Location</button>
 
             </form>
-            <button type="text" className="btn btn-primary" onClick={() => {
-                for (let i = 0; i < props.list.length; i++) {
-                    console.log(props.list[i])
-                }
-            }}>clickme
-            </button>
+
+
         </div>
 
     );

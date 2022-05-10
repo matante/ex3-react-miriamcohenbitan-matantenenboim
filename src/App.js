@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactDOM from "react-dom/client";
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
 import Menu from "./components/Menu";
 import Forecast from "./components/Forecast";
@@ -18,14 +18,16 @@ export default function App() {
         <div>
             <BrowserRouter>
                 <Menu/>
-
+                <hr/>
                 <Routes>
-                    <Route path="/" element={<Forecast  locationsList={locationsList} setLocationsList={setLocationsList}/>}/>
-                    <Route path="locations" element={<Locations locationsList={locationsList} setLocationsList={setLocationsList}/>}/>
+                    <Route path="/"
+                           element={<Forecast locationsList={locationsList}/>}/>
+                    <Route path="locations"
+                           element={<Locations locationsList={locationsList} setLocationsList={setLocationsList}/>}/>
                     <Route path="*" element={<NoPage/>}/>
+
                 </Routes>
             </BrowserRouter>
         </div>
     );
 }
-

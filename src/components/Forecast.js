@@ -1,5 +1,4 @@
 import * as React from 'react';
-import App from "../App";
 import List from "./List";
 import TodayForecast from "./TodayForecast";
 import {useState} from "react";
@@ -10,6 +9,7 @@ function Forecast(props) {
     const [forecastDetails, setForecastDetails] =
         useState({date: "", weather: "", temperatures: {min: "", max: ""}, wind: ""});
     const [spinner, setSpinner] = useState(false);
+    const [fetchSucceed, setFetchSucceed] = useState(true);
 
 
     function status(response) {
@@ -22,35 +22,68 @@ function Forecast(props) {
 
     const displayImage = async (location) => {
         setSpinner(true);
-        const latitude = location.latitude;
-        const longitude = location.longitude;
-        setImageSource(`https://www.7timer.info/bin/astro.php?%20lon=${longitude}&lat=${latitude}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`)
+        const latitude = parseFloat(location.latitude);
+        const longitude = parseFloat(location.longitude);
         const url = `https://www.7timer.info/bin/api.pl?lon=${longitude}&lat=${latitude}&product=civillight&output=json`
         await fetch(url, {method: "GET"})
             .then(status)
             .then(res => res.json())
             .then(json => {
                 const today = json["dataseries"][0];
-                setForecastDetails({...forecastDetails,
+                setForecastDetails({
+                    ...forecastDetails,
                     date: today["date"], weather: today["weather"],
                     temperatures: {min: today["temp2m"]["min"], max: today["temp2m"]["max"]},
                     wind: today["wind10m_max"]
+
                 });
-                setSpinner(false);
+                setImageSource(`https://www.7timer.info/bin/astro.php?%20lon=${longitude}&lat=${latitude}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`)
+
+                setFetchSucceed(true);
 
             })
-            .catch(function (err) {
-                return Promise.reject(new Error(err.statusText));
-            });
+            .catch( () => {
+                setImageSource("forecast.jpg");
+                setFetchSucceed(false);
+            })
+            .finally(() => {setSpinner(false);});
     }
 
     return (
         <>
-            <List list={props.locationsList} action={displayImage} actionText={"Show Forecast"} buttonColor={"primary"}/>
+            <div className="d-flex justify-content-center">
+                <img src={imageSource} alt={''}/>
+            </div>
+            {fetchSucceed ? (
+                <>
+                    <br/>
+                    <div className="d-flex justify-content-center">
+                        <TodayForecast forecast={forecastDetails}/>
+                    </div>
+                </>
+            ) : (
+                <div className="d-flex justify-content-center">
+                    <h5>Weather forecast service is not available right now, please try again later.</h5>
+                </div>
+            )}
+
             <br/>
-            <img src={imageSource} alt={''} />
+            <div className="d-flex justify-content-center">
+
+                {spinner ?
+                    (<div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>)
+                    : ("")}
+            </div>
             <br/>
-            <TodayForecast forecast={forecastDetails} spinner={spinner}/>
+
+            {props.locationsList.length > 0 ? (
+                <List list={props.locationsList} action={displayImage} actionText={"Show Forecast"}
+                      buttonColor={"primary"}/>
+
+            ) : ""}
+            <br/>
         </>
     );
 }

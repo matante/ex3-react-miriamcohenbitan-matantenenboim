@@ -6,13 +6,16 @@ import {useState} from "react";
 function TodayForecast(props) {
 
 
-    const toDate = (date) => {
+    const toDate = (date) => { // todo how to return date properly?
         const dateString = date.toString();
-        const year = dateString.substring(0, 4);
-        const month = dateString.substring(4, 6);
-        const day = dateString.substring(6, 8);
+        const year = parseInt(dateString.substring(0, 4));
+        const month = parseInt(dateString.substring(4, 6));
+        const day = parseInt(dateString.substring(6, 8));
+        // todo : parse int
+        const newDate = new Date(year, month - 1, day);
+        return newDate.toDateString()
 
-        return `${year} ${month} ${day}`;
+//        return `${newDate.getDay()}${newDate.getDate()}/${newDate.getMonth()}/${newDate.getFullYear()}`;
     }
 
     const getWindAsText = (windNumber) => {
@@ -30,7 +33,7 @@ function TodayForecast(props) {
                         <h5 className="card-header"> {toDate(props.forecast.date)} </h5>
                         <div className="card-body">
                             <div className="row">
-                                <div className="col-3">
+                                <div className="col-6">
                                     <h5>Weather:</h5>
                                 </div>
                                 <div className="col-6">
@@ -39,7 +42,7 @@ function TodayForecast(props) {
                             </div>
 
                             <div className="row">
-                                <div className="col-3">
+                                <div className="col-6">
                                     <h5>Temperature:</h5>
                                 </div>
                                 <div className="col-6">
@@ -48,7 +51,7 @@ function TodayForecast(props) {
                             </div>
 
                             <div className="row">
-                                <div className="col-3">
+                                <div className="col-6">
                                     <h5>Wind Condition:</h5>
                                 </div>
                                 <div className="col-6">
@@ -60,11 +63,7 @@ function TodayForecast(props) {
                 ) : (<h5>Please add a location and then press "Show Forecast"</h5>)}
 
             </div>
-            {props.spinner ?
-                (<div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>)
-                : ("") }
+
 
         </>
     )
