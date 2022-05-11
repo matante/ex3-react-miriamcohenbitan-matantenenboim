@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Location from "../Location"
 import Form from "./Form";
 import List from "./List";
+import EditableList from "./EditableList";
 import Constants from "../Constants";
 
 
@@ -27,7 +28,6 @@ export default function Locations(props) {
         return false;
     }
     const isInRange = (type, value, min, max) => {
-        console.log(type, min, max)
 
         if (value < min || value > max) {
             setErrors(errors => ({...errors, [type]: `Value is not in range [${min}..${max}]`}));
@@ -62,8 +62,11 @@ export default function Locations(props) {
         <>
             <Form list={props.locationsList} addLocation={addLocation} errors={errors} checkInput={checkInput}/>
             <br/>
-            <List list={props.locationsList} action={deleteLocation} actionText={"Delete Location"}
-                  buttonColor={"danger"}/>
+            {/*<List list={props.locationsList} action={deleteLocation} actionText={"Delete Location"}*/}
+            {/*      buttonColor={"danger"} listType={"deletable"}/>*/}
+            <EditableList list={props.locationsList} action={deleteLocation}
+                          actionText={"Delete Location"} buttonColor={"danger"}
+            />
         </>
     );
 }

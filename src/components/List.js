@@ -4,8 +4,26 @@ import App from "../App";
 
 function List(props) {
 
+    // const insertList = (listType) => {
+    //     let list = ``;
+    //     // if (listType === "deletable"){
+    //     list +=
+    //         <div>
+    //             <ul className="list-group">
+    //                 <li className="list-group-item">An item</li>
+    //                 <li className="list-group-item">A second item</li>
+    //             </ul>
+    //         </div>;
+    //     // }
+    //
+    //     return list
+    // }
     return (
         <>
+
+
+
+
             <div className="card">
                 <ol>
                     {props.list.map(location => (

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {useState, useEffect} from 'react';
-
+import SiteTitle from "./components/SiteTitle";
 import Menu from "./components/Menu";
 import Forecast from "./components/Forecast";
 import Locations from "./components/Locations";
@@ -16,6 +16,7 @@ export default function App() {
 
     return (
         <div>
+            <SiteTitle/>
             <BrowserRouter>
                 <Menu/>
                 <hr/>
