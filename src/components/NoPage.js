@@ -1,10 +1,14 @@
 import * as React from 'react';
+import Constants from "../Constants";
 
-
+/**
+ * if the url is not valid, show this page.
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function NoPage() {
-    console.log("Hello from NoPage");
 
     return (
-            <h1>NoPage</h1>
+            <h1>{Constants.messages.invalidURL}</h1>
     );
 }

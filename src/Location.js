@@ -1,9 +1,9 @@
+/**
+ * A class which implements a Location. it has 3 attributes: name, latitude and longitude
+ * @type {Location}
+ */
 module.exports = class Location {
     constructor(name, latitude, longitude) {
-        // if (!name || isNaN(longitude) || isNaN(latitude)){
-        //     console.log("bad from c-tor")
-        //     return;
-        // }
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -19,4 +19,4 @@ module.exports = class Location {
         return this.longitude;
     }
 
-}
+};

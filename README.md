@@ -5,11 +5,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Authors
 
 Miriam Cohen Bitan miriamco@edu.hac.ac.il
+<br/>
 Matan Tenenboim matante@edu.hac.ac.il
 ## General Information
+please make sure to run <br/>
+npm install
 
 ### libraries used for this project:
-react-router, ...
+react-router
 
 ## Available Scripts
 

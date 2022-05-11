@@ -1,18 +1,20 @@
 import * as React from 'react';
-import ReactDOM from "react-dom/client";
-
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import SiteTitle from "./components/SiteTitle";
 import Menu from "./components/Menu";
 import Forecast from "./components/Forecast";
 import Locations from "./components/Locations";
 import NoPage from "./components/NoPage";
 
-
+/**
+ * This is the main app of this website. It contains all the other components
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function App() {
-    const [locationsList, setLocationsList] = useState([]);
 
+    const [locationsList, setLocationsList] = useState([]); // this list contains instances of Location class
 
     return (
         <div>

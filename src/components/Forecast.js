@@ -1,18 +1,36 @@
 import * as React from 'react';
-import List from "./List";
 import TodayForecast from "./TodayForecast";
 import {useState} from "react";
 import SelectableList from "./SelectableList";
+import Constants from "../Constants";
 
 
+/**
+ * A component which displays Forecast.
+ * It has 2 components, one to display the forecast of the current day,
+ * and another which displays a list of location to select the forecast to.
+ * @param props locationsList which is a list that contains instances of Location class
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Forecast(props) {
-    const [imageSource, setImageSource] = useState("forecast.jpg");
+    const [imageSource, setImageSource] = useState(Constants.paths.forecastImg);
+    // state to indicate the path of the default image
+
     const [forecastDetails, setForecastDetails] =
         useState({date: "", weather: "", temperatures: {min: "", max: ""}, wind: ""});
-    const [spinner, setSpinner] = useState(false);
+    // reducer which have information about a location forecast
+
+    const [spinner, setSpinner] = useState(false); // the loading gif
+
     const [fetchSucceed, setFetchSucceed] = useState(true);
+    // a state to indicate whether the fetch was successful
 
-
+    /**
+     * a simple function to tell if the return status from the api was good
+     * @param response as received from the rest request
+     * @returns {Promise<never>|Promise<unknown>}
+     */
     function status(response) {
         if (response.status >= 200 && response.status < 300) {
             return Promise.resolve(response);
@@ -21,12 +39,17 @@ function Forecast(props) {
         }
     }
 
+    /**
+     * this function gets an instance of Location, and requests data from the weather website
+     * @param location an instance of Location
+     * @returns {Promise<void>}
+     */
     const displayForecast = async (location) => {
         if (location !== undefined) {
-            setSpinner(true);
-            const latitude = parseFloat(location.latitude);
-            const longitude = parseFloat(location.longitude);
-            const url = `https://www.7timer.info/bin/api.pl?lon=${longitude}&lat=${latitude}&product=civillight&output=json`
+            setSpinner(true); // start the loading gif
+            const latitude = parseFloat(location.getLatitude());
+            const longitude = parseFloat(location.getLongitude());
+            const url = `https://www.7timer.info/bin/api.pl?lon=${longitude}&lat=${latitude}&product=civillight&output=json`;
             await fetch(url, {method: "GET"})
                 .then(status)
                 .then(res => res.json())
@@ -37,26 +60,29 @@ function Forecast(props) {
                         date: today["date"], weather: today["weather"],
                         temperatures: {min: today["temp2m"]["min"], max: today["temp2m"]["max"]},
                         wind: today["wind10m_max"]
-
                     });
-                    setImageSource(`https://www.7timer.info/bin/astro.php?%20lon=${longitude}&lat=${latitude}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`)
+                    setImageSource(`https://www.7timer.info/bin/astro.php?%20lon=${longitude}&lat=${latitude}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`);
 
                     setFetchSucceed(true);
 
                 })
                 .catch(() => {
-                    setImageSource("forecast.jpg");
+                    setImageSource(Constants.paths.forecastImg);
                     setFetchSucceed(false);
                 })
                 .finally(() => {
                     setSpinner(false);
                 });
         }
-    }
+    };
+
+
     return (
         <>
-            <div className=" d-flex justify-content-center"   >
-                <img src={imageSource} className='img-fluid' alt={''}/>
+            <div className=" d-flex justify-content-center">
+                <a href={imageSource} target="_blank" rel="noreferrer">
+                    <img src={imageSource} className='img-fluid' alt={'graph'}/>
+                </a>
             </div>
             {fetchSucceed ? (
                 <>
@@ -67,7 +93,7 @@ function Forecast(props) {
                 </>
             ) : (
                 <div className="d-flex justify-content-center">
-                    <h5>Weather forecast service is not available right now, please try again later.</h5>
+                    <h5>{Constants.messages.networkError}</h5>
                 </div>
             )}
 
@@ -75,7 +101,7 @@ function Forecast(props) {
             <div className="d-flex justify-content-center">
                 {spinner ?
                     (<div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{Constants.messages.spinner}</span>
                     </div>)
                     : ""}
             </div>
@@ -83,8 +109,8 @@ function Forecast(props) {
 
             {props.locationsList.length > 0 ? (
                 <SelectableList list={props.locationsList} action={displayForecast}
-                                actionText={"Show Forecast"} buttonColor={"primary"}
-                    />
+                                actionText={Constants.messages.forecastActionText} buttonColor={"primary"}
+                />
 
             ) : ""}
             <br/>
@@ -92,8 +118,4 @@ function Forecast(props) {
     );
 }
 
-/*
-list={props.locationsList} action={displayImage} actionText={"Show Forecast"}
-                      buttonColor={"primary"} listType={"selectable"}
- */
 export default Forecast;
